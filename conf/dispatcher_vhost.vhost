@@ -1,0 +1,147 @@
+NameVirtualHost *:80
+<VirtualHost *:80>
+  ServerName aem.akash.local
+  ServerAlias aem.akash.local
+  DocumentRoot D:/aem/apache/htdocs
+	<Directory D:/aem/apache/htdocs>
+	<IfModule disp_apache2.c>
+       SetHandler dispatcher-handler
+       ModMimeUsePathInfo On
+	</IfModule>
+     Options FollowSymLinks
+     AllowOverride None
+	</Directory>
+	<IfModule mod_rewrite.c>		
+		ReWriteEngine	on
+		#LogLevel alert rewrite:trace6
+		#Demo rewrite rules
+		#RewriteRule    ^/(.*)\.html$  /content/sitea/$1.html [PT]
+		#RewriteRule ^/language-masters/en(.*)\.html$ /content/wknd/language-masters/en$1.html [R=301,L]
+		#RewriteRule /content/we-retail(.*)$ $1 [R=301,L,QSA]
+		
+		
+		
+		RewriteCond %{REQUEST_URI} ^/$
+		RewriteRule (.*) /content/akash-project/us/en/home.html [P,L]
+		
+		RewriteCond %{REQUEST_URI} ^/en/akash/.*
+		RewriteRule (.*) /content/akash-project/us/en/test/Abhinav.html [P]
+ 
+		RewriteCond %{REQUEST_URI} ^/(abhinav)$
+		RewriteRule (.*) /content/akash-project/us/en/test/akash.html [P,L]
+		
+		RewriteCond %{REQUEST_URI} !^/apps 
+		RewriteCond %{REQUEST_URI} !^/bin 
+		RewriteCond %{REQUEST_URI} !^/content 
+		RewriteCond %{REQUEST_URI} !^/etc 
+		RewriteCond %{REQUEST_URI} !^/home 
+		RewriteCond %{REQUEST_URI} !^/libs 
+		RewriteCond %{REQUEST_URI} !^/tmp 
+		RewriteCond %{REQUEST_URI} !^/var 
+		RewriteCond %{REQUEST_URI} !^/dispatcher 
+		RewriteRule ^/(.*).html$ /$1/ [R=301,L]
+
+		RewriteCond %{REQUEST_URI} !^/apps 
+		RewriteCond %{REQUEST_URI} !^/bin 
+		RewriteCond %{REQUEST_URI} !^/content 
+		RewriteCond %{REQUEST_URI} !^/etc 
+		RewriteCond %{REQUEST_URI} !^/home 
+		RewriteCond %{REQUEST_URI} !^/libs 
+		RewriteCond %{REQUEST_URI} !^/tmp 
+		RewriteCond %{REQUEST_URI} !^/var 
+		RewriteCond %{REQUEST_URI} !^/dispatcher 
+		RewriteRule ^/(.*)$ /content/akash-project/us/$1.html [P]		
+
+		RewriteCond %{REQUEST_URI} ^/(content/we-retail)/.*
+		RewriteRule ^/content/we-retail/(.*)\.html$ http://weretail.com/content/we-retail/$1.html [R=301,L]
+ 
+		# Update /etc/sysconfig/httpd with setting the PUBLISH_FORCE_SSL from 0 or 1 to enable or disable enforcing SSL
+	</IfModule>
+	<LocationMatch ^>
+		ErrorDocument 404 /content/akash-project/us/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content>
+		ErrorDocument 404 /content/akash-project/us/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content/akash-project/us>
+	 ErrorDocument 404 /content/akash-project/us/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content/akash-project/us.*$>
+	  ErrorDocument 404 /content/akash-project/us/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content/akash-project/us/en.*$>
+	 ErrorDocument 404 /content/akash-project/us/en/404.html
+	</LocationMatch>
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerName weretail.com
+  ServerAlias weretail.com
+  DocumentRoot D:/aem/apache/htdocs
+	<Directory D:/aem/apache/htdocs>
+	<IfModule disp_apache2.c>
+       SetHandler dispatcher-handler
+       ModMimeUsePathInfo On
+	</IfModule>
+     Options FollowSymLinks
+     AllowOverride None
+	</Directory>
+	<IfModule mod_rewrite.c>		
+		RewriteEngine	on
+		#LogLevel trace rewrite:info
+		RewriteCond %{REQUEST_URI} ^/$
+		RewriteRule (.*) /content/we-retail/us/en.html [P,L]
+		
+		RewriteCond %{REQUEST_URI} ^/en/akash/$
+		#RewriteRule /content/we-retail(.*)$ $1 [R=301,L,QSA]
+		RewriteRule ^/en/(.*)$ /content/we-retail/us/en/products/women/gloves/gloves.html?q=$1/$1 [P,L,QSA]
+		
+		RewriteCond %{REQUEST_URI} ^/(akash|product)$
+		RewriteRule (.*) /content/we-retail/us/en/products.html [P,L]
+		
+		RewriteCond %{REQUEST_URI} !^/apps 
+		RewriteCond %{REQUEST_URI} !^/bin 
+		RewriteCond %{REQUEST_URI} !^/content 
+		RewriteCond %{REQUEST_URI} !^/etc 
+		RewriteCond %{REQUEST_URI} !^/home 
+		RewriteCond %{REQUEST_URI} !^/libs 
+		RewriteCond %{REQUEST_URI} !^/tmp 
+		RewriteCond %{REQUEST_URI} !^/var 
+		RewriteCond %{REQUEST_URI} !^/dispatcher 
+		RewriteRule ^/(.*).html$ /$1/ [R=301,L]
+
+		RewriteCond %{REQUEST_URI} !^/apps 
+		RewriteCond %{REQUEST_URI} !^/bin 
+		RewriteCond %{REQUEST_URI} !^/content 
+		RewriteCond %{REQUEST_URI} !^/etc 
+		RewriteCond %{REQUEST_URI} !^/home 
+		RewriteCond %{REQUEST_URI} !^/libs 
+		RewriteCond %{REQUEST_URI} !^/tmp 
+		RewriteCond %{REQUEST_URI} !^/var 
+		RewriteCond %{REQUEST_URI} !^/dispatcher 
+		RewriteRule ^/(.*)$ /content/we-retail/us/$1.html [P]
+		
+		RewriteCond %{REQUEST_URI} ^/(content/akash-project)/.*
+		RewriteRule ^/content/akash-project/(.*)\.html$ http://aem.akash.local/content/akash-project/$1.html [R=301,L]
+ 
+		# Update /etc/sysconfig/httpd with setting the PUBLISH_FORCE_SSL from 0 or 1 to enable or disable enforcing SSL
+	</IfModule>
+	<LocationMatch ^>
+		ErrorDocument 404 /content/we-retail/us/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content>
+		ErrorDocument 404 /content/we-retail/us/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content/we-retail/us/en>
+	 ErrorDocument 404 /content/we-retail/ca/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content/we-retail/ca/en>
+	 ErrorDocument 404 /content/we-retail/ca/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content/we-retail/us/en.*$>
+	  ErrorDocument 404 /content/we-retail/ca/en/404.html
+	</LocationMatch>
+	<LocationMatch ^/content/we-retail/ca/en/.*$>
+	 ErrorDocument 404 /content/we-retail/ca/en/404.html
+	</LocationMatch>
+</VirtualHost>
