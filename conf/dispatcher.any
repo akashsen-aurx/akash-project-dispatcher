@@ -53,10 +53,10 @@
     #
     #     denies request "GET /index.html HTTP/1.1" but not "GET /index.html?a=b HTTP/1.1".
     #
-    # (2) method/url/query/protocol/path/selectors/extension/suffix will be compared
-    #     against the respective elements of  the request line, e.g.:
+     (2) method/url/query/protocol/path/selectors/extension/suffix will be compared
+         against the respective elements of  the request line, e.g.:
     #
-    #       /0001 { /type "deny" /method "GET" /url "/index.html" }
+           /0001 { /type "deny" /method "GET" /url "/index.html" }
     #
     #     denies both "GET /index.html" and "GET /index.html?a=b HTTP/1.1".
     #
