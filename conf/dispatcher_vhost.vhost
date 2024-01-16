@@ -90,7 +90,7 @@ NameVirtualHost *:80
 		RewriteEngine	on
 		RewriteLogLevel 5
 		RewriteLog logs/dispatcher.log
-		#LogLevel trace rewrite:info
+		LogLevel trace rewrite:info
 		RewriteCond %{REQUEST_URI} ^/$
 		RewriteRule (.*) /content/we-retail/us/en.html [P,L]
 		
